@@ -1,0 +1,137 @@
+class hospital:
+  def __init__(self,*data):
+      self.data = [i for i in data]
+      self.ED_count=5
+      self.ICU_count=2
+      self.Gen_ward_count=10
+      self.ED=[]
+      self.ICU=[]
+      self.General_Ward=[]
+  def show_specialities(self):
+      print("Available specialities are", self.data)
+  def bed_availability(self):
+      print("Available beds in ED: ",self.ED_count)
+      print("Available beds in ICU: ",self.ICU_count)
+      print("Available beds in General Ward: ",self.Gen_ward_count)
+  def patient_status(self):
+      if patient_name in self.ED:
+        print("The patient is receiving treatment in ED")
+      elif patient_name in self.ICU:
+        print("The patient is receiving treatment in ICU")
+      elif patient_name in self.General_Ward:
+        print("The patient is receiving treatment in General Ward")
+      else:
+        print("The patient has been discharged")
+
+
+class doctor:
+  def __init__(self,*doc):
+      self.doc=[j for j in doc]
+  def requestdoc(self):
+      doct = input("enter doctor name : ")
+      return doct
+  def disease_severity(self):
+      print("1.High")
+      print("2.Moderate")
+      print("3.Low")
+      print("4.Normal")
+      severity=int(input("Enter the severity: "))
+      if severity==1 and LPK_Hospital.ED_count>0:
+        print("Admitting the patient in Emergency Department")
+        LPK_Hospital.ED_count=LPK_Hospital.ED_count-1
+        LPK_Hospital.ED.append(patient_name)
+      elif severity==2 and LPK_Hospital.ICU_count>0:
+        print("Admitting the patient to ICU")
+        LPK_Hospital.ICU_count=LPK_Hospital.ICU_count-1
+        LPK_Hospital.ICU.append(patient_name)
+      elif severity==3 and LPK_Hospital.Gen_ward_count>0:
+        print("Admitting the patient in General Ward")
+        LPK_Hospital.Gen_ward_count=LPK_Hospital.Gen_ward_count-1
+        LPK_Hospital.General_Ward.append(patient_name)
+      elif severity==4:
+        print("The patient does not require an admission and can be discharged")
+      else:
+        print("Patient to be kept in Day Care Ward until bed is available")
+  def recovery(self):
+      print("1.Excellent")
+      print("2.Good")
+      print("3.Moderate")
+      print("4.Low")
+      Recovery=int(input("recovery per doctor: "))
+      if Recovery ==1:
+        print("The patient can be discharged")
+      else:
+        print("The treatment continues")
+  def discharge_instructions(self):
+       print("The patient is discharged in stable condition with a followup after 1 week")
+       if patient_name in LPK_Hospital.ED:
+        LPK_Hospital.ED.remove(patient_name)
+        LPK_Hospital.ED_count = LPK_Hospital.ED_count+1
+       elif patient_name in LPK_Hospital.ICU:
+        LPK_Hospital.ICU.remove(patient_name)
+        LPK_Hospital.ICU_count=LPK_Hospital.ICU_count+1
+       elif patient_name in LPK_Hospital.General_Ward:
+        LPK_Hospital.General_Ward.remove(patient_name)
+        LPK_Hospital.Gen_ward_count=LPK_Hospital.Gen_ward_count+1
+
+class patient:
+  def __init__(self):
+    self.patient_details = {}
+  def show_patientdetails(self):
+      print("Patient Details ",self.patient_details)
+  def patientname(self):
+      name = input("enter patient name : ")
+      return name
+  def patientage(self):
+      age=input("enter patient age:" )
+      return age
+  def patientaddress(self):
+      address=input("enter patient address:")
+      return address
+
+LPK_Hospital=hospital("General","Cardiology", "Pulmonology","Orthopedic","Pediatrics","Gastroenterology","Nephrology","Dermatology")
+Doctors=doctor("general physician","cardiologist","pulmonologist","orthopedist","pediatrician")
+Patient=patient()
+
+while True:
+    print("1.Show available specialities")
+    print("2.Enter patient details")
+    print("3.Show patient details")
+    print("4.Check doctor availability")
+    print("5.Bed availability")
+    print("6.Severity of disease per initial examination")
+    print("7.Patient Status")
+    print("8.Doctor's Impression")
+    print("9.Discharge Instructions")
+    print("10.Exit")
+    choice = int(input("enter your choice : "))
+    if choice == 1:
+      LPK_Hospital.show_specialities()
+    elif choice==2:
+      patient_name=Patient.patientname()
+      patient_age=Patient.patientage()
+      patient_address=Patient.patientaddress()
+      Patient.patient_details.update({"Patient Name":patient_name,"Patient Age":patient_age,"Patient Address":patient_address})
+    elif choice==3:
+      Patient.show_patientdetails()
+    elif choice==4:
+      requesteddoctor = Doctors.requestdoc()
+      if requesteddoctor in Doctors.doc:
+          print("Doctor is available")
+      else:
+          print("Doctor is not available")
+    elif choice==5:
+      LPK_Hospital.bed_availability()
+    elif choice==6:
+        Doctors.disease_severity()
+    elif choice==7:
+        LPK_Hospital.patient_status()
+    elif choice==8:
+        Doctors.recovery()
+    elif choice==9:
+      Doctors.discharge_instructions()
+      Patient.patient_details.pop("Patient Name")
+      Patient.patient_details.pop("Patient Age")
+      Patient.patient_details.pop("Patient Address")
+    elif choice==10:
+      break
